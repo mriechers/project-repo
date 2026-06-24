@@ -1,0 +1,16 @@
+#!/bin/bash
+# Commit-message hook — clone-portable delegate.
+#
+# Execs the workspace canonical commit-msg hook when present (it enforces the
+# conventional-type grammar and warns on a missing `Agent:` trailer for AI commits).
+# If the workspace isn't checked out here, this is a no-op so the repo stays portable.
+#
+# Enable after cloning:
+#   chmod +x .githooks/commit-msg
+#   git config core.hooksPath .githooks
+
+LODGE_DIR="${HOME}/Developer/the-lodge"
+if [[ -x "${LODGE_DIR}/conventions/git-hooks/commit-msg" ]]; then
+  exec "${LODGE_DIR}/conventions/git-hooks/commit-msg" "$@"
+fi
+exit 0

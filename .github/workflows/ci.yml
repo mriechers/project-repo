@@ -1,0 +1,60 @@
+# CI — starter pipeline.
+#
+# Ships with ONE always-on job: the floor secret-scan (gitleaks). It runs on every push
+# and PR regardless of language — it's the one mechanical check social enforcement can't
+# replace. The language-tier lint + test jobs below are commented stubs: uncomment the
+# block that matches this repo's stack once a real suite exists.
+#
+# See ~/Developer/the-lodge/conventions/CI_STANDARDIZATION.md for the tiered model
+# (floor → language tiers → review).
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # ---- Floor tier: always runs -------------------------------------------------
+  secret-scan:
+    name: secret-scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history so gitleaks can scan all commits
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ---- Python tier: uncomment when a pytest suite exists -----------------------
+  # python:
+  #   name: lint + test (python)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-python@v5
+  #       with:
+  #         python-version: "3.12"
+  #     - run: pip install -e ".[dev]"   # or: pip install -r requirements-dev.txt
+  #     - run: ruff check .              # lint
+  #     - run: pytest                    # test
+
+  # ---- Node tier: uncomment when a JS/TS suite exists --------------------------
+  # node:
+  #   name: lint + test (node)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20"
+  #         cache: npm
+  #     - run: npm ci
+  #     - run: npm run lint
+  #     - run: npm test

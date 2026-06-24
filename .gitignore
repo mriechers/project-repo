@@ -1,0 +1,33 @@
+# Secrets — never commit. Secrets live in 1Password, read via get-secret.sh.
+.env
+.env.*
+*.local.json
+.*-local.json
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Node
+node_modules/
+
+# Git worktrees + scratch
+.worktrees/
+worktree-*/
+scratch/
+tmp/
+
+# Editor
+.vscode/settings.json
+.idea/
+
+# TODO: add language/framework-specific entries for this repo, e.g.
+#   dist/ build/ *.egg-info/        (Python packaging)
+#   coverage/ .next/ *.tsbuildinfo  (Node / web)
+#   target/                         (Rust / JVM)
