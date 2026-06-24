@@ -37,7 +37,7 @@
 One project repo MAY contain several services that ship together — a web frontend, a
 worker, and a shared library under one repo with **one CI pipeline and one release
 cadence**. A cohesive multi-service application is **one project repo**, not many. Reach
-for a separate repo (and a coordination/metarepo layer above it) only when services have
+for a separate repo (and a coordination / ops-repo layer above it) only when services have
 genuinely independent remotes, CI, and release cycles. When in doubt, stay monorepo.
 
 ## Conventions
